@@ -1,7 +1,7 @@
 table_name("windows_eventlog")
-description("Table for querying all recorded Windows event logs.")
+description("Table for querying all recorded Windows event logs. Either the channel or xpath must be specified in the WHERE clause.")
 schema([
-    Column("channel", TEXT, "Source or channel of the event", required=True),
+    Column("channel", TEXT, "(CONSTRAINT) Source or channel of the event, e.g. 'Application' or 'Security'", required=True),
     Column("datetime", TEXT, "System time at which the event occurred"),
     Column("task", INTEGER, "Task value associated with the event"),
     Column("level", INTEGER, "Severity level associated with the event"),
@@ -15,7 +15,7 @@ schema([
     Column("tid", INTEGER, "Thread ID which emitted the event record"),
     Column("time_range", TEXT, "System time to selectively filter the events", hidden=True, additional=True),
     Column("timestamp", TEXT, "Timestamp to selectively filter the events", hidden=True, additional=True),
-    Column("xpath", TEXT, "The custom query to filter events", hidden=True, required=True),
+    Column("xpath", TEXT, "(CONSTRAINT) The custom query to filter events", hidden=True, required=True),
 ])
 
 implementation("system/windows_eventlog@genWindowsEventLog", generator=True)
